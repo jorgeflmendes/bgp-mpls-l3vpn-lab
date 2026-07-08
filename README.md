@@ -28,6 +28,8 @@ SAAR / Advanced Network Security and Architectures at Instituto Superior Tecnico
 
 ## Architecture
 
+![BGP Topology](docs/report/assets/bgp.png)
+
 ```mermaid
 flowchart LR
 BLUE1["Blue site 1"] --> PE1["PE1\nVRF blue/red"]
