@@ -1,0 +1,246 @@
+﻿> Frame 9: Packet, 119 bytes on wire (952 bits), 119 bytes captured (952 bits)
+Encapsulation type: Ethernet (1)
+    Frame Number: 9
+    Frame Length: 119 bytes (952 bits)
+Capture Length: 119 bytes (952 bits)
+    [Frame is marked: False]
+    [Frame is ignored: False]
+[Protocols in frame: eth:ethertype:mpls:tcp:bgp]
+    .... .... .... .... .... ...1 .... .... = MPLS Bottom Of Label Stack: 1
+.... .... .... .... .... .... 1111 1111 = MPLS TTL: 255
+Internet Protocol Version 4, Src: 1.1.1.1, Dst: 2.2.2.2
+    0100 .... = Version: 4
+.... 0101 = Header Length: 20 bytes (5)
+        [Time since first frame in this TCP stream: 62.243000 milliseconds]
+        [Time since previous frame in this TCP stream: 10.821000 milliseconds]
+[SEQ/ACK analysis]
+Border Gateway Protocol - OPEN Message
+Marker: ffffffffffffffffffffffffffffffff
+    Type: OPEN Message (1)
+    Version: 4
+    My AS: 100
+    Hold Time: 180
+    BGP Identifier: 1.1.1.1
+Optional Parameters Length: 32
+        Optional Parameter: Capability
+            Parameter Type: Capability (2)
+Parameter Length: 6
+            Capability: Multiprotocol extensions capability
+                Type: Multiprotocol extensions capability (1)
+Length: 4
+                AFI: IPv4 (1)
+Reserved: 00
+                SAFI: Labeled VPN Unicast (128)
+        Optional Parameter: Capability
+            Parameter Type: Capability (2)
+Parameter Length: 6
+            Capability: Multiprotocol extensions capability
+                Type: Multiprotocol extensions capability (1)
+Length: 4
+                AFI: IPv4 (1)
+Reserved: 00
+                SAFI: Unicast (1)
+        Optional Parameter: Capability
+            Parameter Type: Capability (2)
+Parameter Length: 2
+            Capability: Route Refresh Capability (Cisco)
+                Type: Route Refresh Capability (Cisco) (128)
+Length: 0
+        Optional Parameter: Capability
+            Parameter Type: Capability (2)
+Parameter Length: 2
+            Capability: Route refresh capability
+                Type: Route refresh capability (2)
+Length: 0
+        Optional Parameter: Capability
+            Parameter Type: Capability (2)
+Parameter Length: 6
+            Capability: Support for 4-octet AS number capability
+                Type: Support for 4-octet AS number capability (65)
+Length: 4
+Frame 11: Packet, 115 bytes on wire (920 bits), 115 bytes captured (920 bits)
+Encapsulation type: Ethernet (1)
+    Frame Number: 11
+    Frame Length: 115 bytes (920 bits)
+Capture Length: 115 bytes (920 bits)
+    [Frame is marked: False]
+    [Frame is ignored: False]
+[Protocols in frame: eth:ethertype:ip:tcp:bgp]
+Internet Protocol Version 4, Src: 2.2.2.2, Dst: 1.1.1.1
+    0100 .... = Version: 4
+.... 0101 = Header Length: 20 bytes (5)
+        [Time since first frame in this TCP stream: 200.601000 milliseconds]
+        [Time since previous frame in this TCP stream: 31.871000 milliseconds]
+[SEQ/ACK analysis]
+Border Gateway Protocol - OPEN Message
+Marker: ffffffffffffffffffffffffffffffff
+    Type: OPEN Message (1)
+    Version: 4
+    My AS: 100
+    Hold Time: 180
+    BGP Identifier: 2.2.2.2
+Optional Parameters Length: 32
+        Optional Parameter: Capability
+            Parameter Type: Capability (2)
+Parameter Length: 6
+            Capability: Multiprotocol extensions capability
+                Type: Multiprotocol extensions capability (1)
+Length: 4
+                AFI: IPv4 (1)
+Reserved: 00
+                SAFI: Labeled VPN Unicast (128)
+        Optional Parameter: Capability
+            Parameter Type: Capability (2)
+Parameter Length: 6
+            Capability: Multiprotocol extensions capability
+                Type: Multiprotocol extensions capability (1)
+Length: 4
+                AFI: IPv4 (1)
+Reserved: 00
+                SAFI: Unicast (1)
+        Optional Parameter: Capability
+            Parameter Type: Capability (2)
+Parameter Length: 2
+            Capability: Route Refresh Capability (Cisco)
+                Type: Route Refresh Capability (Cisco) (128)
+Length: 0
+        Optional Parameter: Capability
+            Parameter Type: Capability (2)
+Parameter Length: 2
+            Capability: Route refresh capability
+                Type: Route refresh capability (2)
+Length: 0
+        Optional Parameter: Capability
+            Parameter Type: Capability (2)
+Parameter Length: 6
+            Capability: Support for 4-octet AS number capability
+                Type: Support for 4-octet AS number capability (65)
+Length: 4
+Frame 15: Packet, 267 bytes on wire (2136 bits), 267 bytes captured (2136 bits)
+Encapsulation type: Ethernet (1)
+    Frame Number: 15
+    Frame Length: 267 bytes (2136 bits)
+Capture Length: 267 bytes (2136 bits)
+    [Frame is marked: False]
+    [Frame is ignored: False]
+[Protocols in frame: eth:ethertype:mpls:tcp:bgp]
+    .... .... .... .... .... ...1 .... .... = MPLS Bottom Of Label Stack: 1
+.... .... .... .... .... .... 1111 1111 = MPLS TTL: 255
+Internet Protocol Version 4, Src: 1.1.1.1, Dst: 2.2.2.2
+    0100 .... = Version: 4
+.... 0101 = Header Length: 20 bytes (5)
+        [Time since first frame in this TCP stream: 261.425000 milliseconds]
+        [Time since previous frame in this TCP stream: 94.000 microseconds]
+[SEQ/ACK analysis]
+Border Gateway Protocol - UPDATE Message
+Marker: ffffffffffffffffffffffffffffffff
+    Type: UPDATE Message (2)
+Withdrawn Routes Length: 0
+            Carried extended communities: (1 community)
+                Route Target: 1:1 [Transitive 2-Octet AS-Specific]
+Type: Transitive 2-Octet AS-Specific (0x00)
+                    Subtype (AS2): Route Target (0x02)
+2-Octet AS: 1
+        Path Attribute - MP_REACH_NLRI
+Flags: 0x80, Optional, Non-transitive, Complete
+            Type Code: MP_REACH_NLRI (14)
+Length: 32
+            Address family identifier (AFI): IPv4 (1)
+            Subsequent address family identifier (SAFI): Labeled VPN Unicast (128)
+            Next hop:  RD=0:0 IPv4=1.1.1.1
+                Route Distinguisher: 0:0
+IPv4 Address: 1.1.1.1
+                    Label Stack: 18 (bottom)
+                    Route Distinguisher: 1:1
+                    MP Reach NLRI IPv4 prefix: 192.168.101.0
+Border Gateway Protocol - UPDATE Message
+Marker: ffffffffffffffffffffffffffffffff
+    Type: UPDATE Message (2)
+Withdrawn Routes Length: 0
+            Carried extended communities: (1 community)
+                Route Target: 2:2 [Transitive 2-Octet AS-Specific]
+Type: Transitive 2-Octet AS-Specific (0x00)
+                    Subtype (AS2): Route Target (0x02)
+2-Octet AS: 2
+        Path Attribute - MP_REACH_NLRI
+Flags: 0x80, Optional, Non-transitive, Complete
+            Type Code: MP_REACH_NLRI (14)
+Length: 32
+            Address family identifier (AFI): IPv4 (1)
+            Subsequent address family identifier (SAFI): Labeled VPN Unicast (128)
+            Next hop:  RD=0:0 IPv4=1.1.1.1
+                Route Distinguisher: 0:0
+IPv4 Address: 1.1.1.1
+                    Label Stack: 19 (bottom)
+                    Route Distinguisher: 2:2
+                    MP Reach NLRI IPv4 prefix: 192.168.111.0
+Border Gateway Protocol - UPDATE Message
+Marker: ffffffffffffffffffffffffffffffff
+    Type: UPDATE Message (2)
+Withdrawn Routes Length: 0
+            Address family identifier (AFI): IPv4 (1)
+            Subsequent address family identifier (SAFI): Labeled VPN Unicast (128)
+Withdrawn Routes
+Frame 18: Packet, 263 bytes on wire (2104 bits), 263 bytes captured (2104 bits)
+Encapsulation type: Ethernet (1)
+    Frame Number: 18
+    Frame Length: 263 bytes (2104 bits)
+Capture Length: 263 bytes (2104 bits)
+    [Frame is marked: False]
+    [Frame is ignored: False]
+[Protocols in frame: eth:ethertype:ip:tcp:bgp]
+Internet Protocol Version 4, Src: 2.2.2.2, Dst: 1.1.1.1
+    0100 .... = Version: 4
+.... 0101 = Header Length: 20 bytes (5)
+        [Time since first frame in this TCP stream: 283.951000 milliseconds]
+        [Time since previous frame in this TCP stream: 10.071000 milliseconds]
+[SEQ/ACK analysis]
+Border Gateway Protocol - UPDATE Message
+Marker: ffffffffffffffffffffffffffffffff
+    Type: UPDATE Message (2)
+Withdrawn Routes Length: 0
+            Carried extended communities: (1 community)
+                Route Target: 1:1 [Transitive 2-Octet AS-Specific]
+Type: Transitive 2-Octet AS-Specific (0x00)
+                    Subtype (AS2): Route Target (0x02)
+2-Octet AS: 1
+        Path Attribute - MP_REACH_NLRI
+Flags: 0x80, Optional, Non-transitive, Complete
+            Type Code: MP_REACH_NLRI (14)
+Length: 32
+            Address family identifier (AFI): IPv4 (1)
+            Subsequent address family identifier (SAFI): Labeled VPN Unicast (128)
+            Next hop:  RD=0:0 IPv4=2.2.2.2
+                Route Distinguisher: 0:0
+IPv4 Address: 2.2.2.2
+                    Label Stack: 18 (bottom)
+                    Route Distinguisher: 1:1
+                    MP Reach NLRI IPv4 prefix: 192.168.102.0
+Border Gateway Protocol - UPDATE Message
+Marker: ffffffffffffffffffffffffffffffff
+    Type: UPDATE Message (2)
+Withdrawn Routes Length: 0
+            Carried extended communities: (1 community)
+                Route Target: 2:2 [Transitive 2-Octet AS-Specific]
+Type: Transitive 2-Octet AS-Specific (0x00)
+                    Subtype (AS2): Route Target (0x02)
+2-Octet AS: 2
+        Path Attribute - MP_REACH_NLRI
+Flags: 0x80, Optional, Non-transitive, Complete
+            Type Code: MP_REACH_NLRI (14)
+Length: 32
+            Address family identifier (AFI): IPv4 (1)
+            Subsequent address family identifier (SAFI): Labeled VPN Unicast (128)
+            Next hop:  RD=0:0 IPv4=2.2.2.2
+                Route Distinguisher: 0:0
+IPv4 Address: 2.2.2.2
+                    Label Stack: 19 (bottom)
+                    Route Distinguisher: 2:2
+                    MP Reach NLRI IPv4 prefix: 192.168.112.0
+Border Gateway Protocol - UPDATE Message
+Marker: ffffffffffffffffffffffffffffffff
+    Type: UPDATE Message (2)
+Withdrawn Routes Length: 0
+            Address family identifier (AFI): IPv4 (1)
+            Subsequent address family identifier (SAFI): Labeled VPN Unicast (128)
+Withdrawn Routes

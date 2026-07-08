@@ -1,0 +1,16 @@
+﻿    4   2.303142 192.168.101.1 → 192.168.102.1 ICMP 122 Echo (ping) request  id=0x0005, seq=0/0, ttl=254
+5   2.356261 192.168.102.1 → 192.168.101.1 ICMP 118 Echo (ping) reply    id=0x0005, seq=0/0, ttl=254 (request in 4)
+6   2.387815 192.168.101.1 → 192.168.102.1 ICMP 122 Echo (ping) request  id=0x0005, seq=1/256, ttl=254
+7   2.451121 192.168.102.1 → 192.168.101.1 ICMP 118 Echo (ping) reply    id=0x0005, seq=1/256, ttl=254 (request in 6)
+8   2.482556 192.168.101.1 → 192.168.102.1 ICMP 122 Echo (ping) request  id=0x0005, seq=2/512, ttl=254
+9   2.546299 192.168.102.1 → 192.168.101.1 ICMP 118 Echo (ping) reply    id=0x0005, seq=2/512, ttl=254 (request in 8)
+10   2.577340 192.168.101.1 → 192.168.102.1 ICMP 122 Echo (ping) request  id=0x0005, seq=3/768, ttl=254
+11   2.619098 192.168.102.1 → 192.168.101.1 ICMP 118 Echo (ping) reply    id=0x0005, seq=3/768, ttl=254 (request in 10)
+12   2.649760 192.168.101.1 → 192.168.102.1 ICMP 122 Echo (ping) request  id=0x0005, seq=4/1024, ttl=254
+13   2.714568 192.168.102.1 → 192.168.101.1 ICMP 118 Echo (ping) reply    id=0x0005, seq=4/1024, ttl=254 (request in 12)
+14   2.756368 192.168.101.1 → 192.168.102.1 ICMP 122 Echo (ping) request  id=0x0005, seq=5/1280, ttl=254
+15   2.809263 192.168.102.1 → 192.168.101.1 ICMP 118 Echo (ping) reply    id=0x0005, seq=5/1280, ttl=254 (request in 14)
+16   2.840458 192.168.101.1 → 192.168.102.1 ICMP 122 Echo (ping) request  id=0x0005, seq=6/1536, ttl=254
+17   2.893705 192.168.102.1 → 192.168.101.1 ICMP 118 Echo (ping) reply    id=0x0005, seq=6/1536, ttl=254 (request in 16)
+18   2.924592 192.168.101.1 → 192.168.102.1 ICMP 122 Echo (ping) request  id=0x0005, seq=7/1792, ttl=254
+19   2.978151 192.168.102.1 → 192.168.101.1 ICMP 118 Echo (ping) reply    id=0x0005, seq=7/1792, ttl=254 (request in 18)

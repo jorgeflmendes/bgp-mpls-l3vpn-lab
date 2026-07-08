@@ -1,0 +1,353 @@
+"Connected to Dynamips VM "PE1" (ID 3, type c7200) - Console port
+
+Press ENTER to get the prompt.
+
+ely down
+
+*May 19 15:31:56.255: %LINK-5-CHANGED: Interface FastEthernet1/0, changed state to administratively down
+
+*May 19 15:31:56.263: %LINK-5-CHANGED: Interface FastEthernet1/1, changed state to administratively down
+
+*May 19 15:31:57.239: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to down
+
+*May 19 15:31:57.247: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to down
+
+*May 19 15:31:57.255: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to down
+
+*May 19 15:31:57.267: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/1, changed state to down
+
+PE1#no
+
+% Incomplete command.
+
+PE1#
+
+PE1#enable
+
+PE1#terminal length 0
+
+PE1#configure terminal
+
+Enter configuration commands, one per line.  End with CNTL/Z.
+
+PE1(config)#hostname PE1
+
+PE1(config)#no ip domain-lookup
+
+PE1(config)#ip cef
+
+PE1(config)#ip vrf blue
+
+PE1(config-vrf)# rd 1:1
+
+PE1(config-vrf)# route-target both 1:1
+
+PE1(config-vrf)#ip vrf red
+
+PE1(config-vrf)# rd 2:2
+
+PE1(config-vrf)# route-target both 2:2
+
+PE1(config-vrf)#mpls ldp router-id Loopback0 force
+
+PE1(config)#interface FastEthernet1/0
+
+PE1(config-if)# ip vrf forwarding blue
+
+PE1(config-if)# ip address 10.10.1.1 255.255.255.0
+
+PE1(config-if)# no shutdown
+
+PE1(config-if)#interface FastEthernet1/1
+
+PE1(config-if)# ip vrf forwarding red
+
+PE1(config-if)#
+
+*May 19 15:33:01.399: %LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback0, changed state to up
+
+PE1(config-if)# ip address 11.11.1.1 255.255.255.0
+
+PE1(config-if)# no shutdown
+
+PE1(config-if)#interface FastEthernet0/0
+
+PE1(config-if)# ip address 222.222.1.1 255.255.255.0
+
+PE1(config-if)# mpls ip
+
+PE1(config-if)# no shutdown
+
+PE1(config-if)#interface Loopback0
+
+PE1(config-if)# ip address 1.1.1.1 255.255.255.255
+
+PE1(config-if)#
+
+*May 19 15:33:03.915: %LINK-3-UPDOWN: Interface FastEthernet1/0, changed state to up
+
+*May 19 15:33:04.915: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to up
+
+PE1(config-if)# no shutdown
+
+PE1(config-if)#router ospf 1
+
+PE1(config-router)# network 222.222.1.0 0.0.0.255 area 0
+
+PE1(config-router)# network 1.1.1.1 0.0.0.0 area 0
+
+PE1(config-router)#
+
+*May 19 15:33:05.535: %LINK-3-UPDOWN: Interface FastEthernet1/1, changed state to up
+
+*May 19 15:33:06.627: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/1, changed state to up
+
+PE1(config-router)#ip route vrf blue 192.168.101.0 255.255.255.0 10.10.1.100
+
+PE1(config)#ip route vrf red 192.168.111.0 255.255.255.0 11.11.1.100
+
+PE1(config)#router bgp 100
+
+PE1(config-router)#
+
+*May 19 15:33:06.975: %LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up
+
+*May 19 15:33:08.051: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up bgp log-neighbor-changes
+
+PE1(config-router)# neighbor 2.2.2.2 remote-as 100
+
+PE1(config-router)# neighbor 2.2.2.2 update-source Loopback0
+
+PE1(config-router)# address-family vpnv4
+
+PE1(config-router-af)#  neighbor 2.2.2.2 activate
+
+PE1(config-router-af)#  neighbor 2.2.2.2 send-community extended
+
+PE1(config-router-af)# exit-address-family
+
+PE1(config-router)# address-family ipv4 vrf blue
+
+PE1(config-router-af)#  redistribute static
+
+PE1(config-router-af)# exit-address-family
+
+PE1(config-router)# address-family ipv4 vrf red
+
+PE1(config-router-af)#  redistribute static
+
+PE1(config-router-af)# exit-address-family
+
+PE1(config-router)#end
+
+PE1#write memory
+
+Warning: Attempting to overwrite an NVRAM configuration previously written
+
+by a different version of the system image.
+
+Overwrite the previous NVRAM configuration?[confirm]
+
+Building configuration...
+
+*May 19 15:33:13.371: %SYS-5-CONFIG_I: Configured from console by console[OK]
+
+PE1#
+
+*May 19 15:33:52.139: %OSPF-5-ADJCHG: Process 1, Nbr 222.222.2.2 on FastEthernet0/0 from LOADING to FULL, Loading Done
+
+PE1#
+
+*May 19 15:34:04.771: %TDP-5-INFO: FastEthernet0/0: LDP started
+
+PE1#
+
+*May 19 15:34:08.127: %LDP-5-NBRCHG: LDP Neighbor 222.222.1.2:0 (1) is UP
+
+PE1#
+
+*May 19 15:34:12.567: %BGP-5-ADJCHANGE: neighbor 2.2.2.2 Up
+
+PE1#
+
+PE1#enable
+
+PE1#terminal length 0
+
+PE1#show ip interface brief
+
+Interface                  IP-Address      OK? Method Status                Protocol
+
+FastEthernet0/0            222.222.1.1     YES manual up                    up
+
+FastEthernet0/1            unassigned      YES unset  administratively down down
+
+FastEthernet1/0            10.10.1.1       YES manual up                    up
+
+FastEthernet1/1            11.11.1.1       YES manual up                    up
+
+Loopback0                  1.1.1.1         YES manual up                    up
+
+PE1#show ip route
+
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+
+D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+
+N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+
+E1 - OSPF external type 1, E2 - OSPF external type 2
+
+i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+
+ia - IS-IS inter area, * - candidate default, U - per-user static route
+
+o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+
++ - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+1.0.0.0/32 is subnetted, 1 subnets
+
+C        1.1.1.1 is directly connected, Loopback0
+
+2.0.0.0/32 is subnetted, 1 subnets
+
+O        2.2.2.2 [110/12] via 222.222.1.2, 00:00:33, FastEthernet0/0
+
+222.222.1.0/24 is variably subnetted, 2 subnets, 2 masks
+
+C        222.222.1.0/24 is directly connected, FastEthernet0/0
+
+L        222.222.1.1/32 is directly connected, FastEthernet0/0
+
+O     222.222.2.0/24 [110/11] via 222.222.1.2, 00:00:33, FastEthernet0/0
+
+PE1#show ip ospf neighbor
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+
+222.222.2.2       1   FULL/DR         00:00:36    222.222.1.2     FastEthernet0/0
+
+PE1#show mpls ldp neighbor
+
+Peer LDP Ident: 222.222.1.2:0; Local LDP Ident 1.1.1.1:0
+
+TCP connection: 222.222.1.2.58729 - 1.1.1.1.646
+
+State: Oper; Msgs sent/rcvd: 7/7; Downstream
+
+Up time: 00:00:23
+
+LDP discovery sources:
+
+FastEthernet0/0, Src IP addr: 222.222.1.2
+
+Addresses bound to peer LDP Ident:
+
+222.222.1.2     222.222.2.2
+
+PE1#show mpls forwarding-table
+
+Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop
+
+Label      Label      or Tunnel Id     Switched      interface
+
+16         16         2.2.2.2/32       0             Fa0/0      222.222.1.2
+
+17         Pop Label  222.222.2.0/24   0             Fa0/0      222.222.1.2
+
+PE1#show ip route vrf blue
+
+Routing Table: blue
+
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+
+D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+
+N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+
+E1 - OSPF external type 1, E2 - OSPF external type 2
+
+i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+
+ia - IS-IS inter area, * - candidate default, U - per-user static route
+
+o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+
++ - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+
+C        10.10.1.0/24 is directly connected, FastEthernet1/0
+
+L        10.10.1.1/32 is directly connected, FastEthernet1/0
+
+S     192.168.101.0/24 [1/0] via 10.10.1.100
+
+PE1#show ip route vrf red
+
+Routing Table: red
+
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+
+D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+
+N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+
+E1 - OSPF external type 1, E2 - OSPF external type 2
+
+i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+
+ia - IS-IS inter area, * - candidate default, U - per-user static route
+
+o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+
++ - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+11.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+
+C        11.11.1.0/24 is directly connected, FastEthernet1/1
+
+L        11.11.1.1/32 is directly connected, FastEthernet1/1
+
+S     192.168.111.0/24 [1/0] via 11.11.1.100
+
+PE1#show ip bgp vpnv4 all
+
+BGP table version is 1, local router ID is 1.1.1.1
+
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+
+r RIB-failure, S Stale, m multipath, b backup-path, x best-external, f RT-Filter
+
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Network          Next Hop            Metric LocPrf Weight Path
+
+Route Distinguisher: 1:1 (default for vrf blue)
+
+*  192.168.101.0    10.10.1.100              0         32768 ?
+
+Route Distinguisher: 2:2 (default for vrf red)
+
+*  192.168.111.0    11.11.1.100              0         32768 ?
+
+PE1#show ip bgp vpnv4 all labels
+
+Network          Next Hop      In label/Out label
+
+Route Distinguisher: 1:1 (blue)
+
+192.168.101.0    10.10.1.100     nolabel/nolabel
+
+Route Distinguisher: 2:2 (red)
+
+192.168.111.0    11.11.1.100     nolabel/nolabel
+
+PE1#show running-config | section ip vrf|router bgp|interface FastEthernet|in$g-config | section ip vrf|router bgp|interface FastEthernet|int         erface Lo section ip vrf|router bgp|interface FastEthernet|interface Loo         pback|ip p vrf|router bgp|interface FastEthernet|interface Loopback|ip r         oute vrf

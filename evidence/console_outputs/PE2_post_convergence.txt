@@ -1,0 +1,445 @@
+"Connected to Dynamips VM "PE2" (ID 5, type c7200) - Console port
+
+Press ENTER to get the prompt.
+
+, N2 - OSPF NSSA external type 2
+
+E1 - OSPF external type 1, E2 - OSPF external type 2
+
+i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+
+ia - IS-IS inter area, * - candidate default, U - per-user static route
+
+o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+
++ - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+
+C        10.10.2.0/24 is directly connected, FastEthernet1/0
+
+L        10.10.2.1/32 is directly connected, FastEthernet1/0
+
+S     192.168.102.0/24 [1/0] via 10.10.2.100
+
+PE2#show ip route vrf red
+
+Routing Table: red
+
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+
+D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+
+N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+
+E1 - OSPF external type 1, E2 - OSPF external type 2
+
+i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+
+ia - IS-IS inter area, * - candidate default, U - per-user static route
+
+o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+
++ - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+11.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+
+C        11.11.2.0/24 is directly connected, FastEthernet1/1
+
+L        11.11.2.1/32 is directly connected, FastEthernet1/1
+
+S     192.168.112.0/24 [1/0] via 11.11.2.100
+
+PE2#show ip bgp vpnv4 all
+
+BGP table version is 1, local router ID is 2.2.2.2
+
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+
+r RIB-failure, S Stale, m multipath, b backup-path, x best-external, f RT-Filter
+
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Network          Next Hop            Metric LocPrf Weight Path
+
+Route Distinguisher: 1:1 (default for vrf blue)
+
+*  192.168.102.0    10.10.2.100              0         32768 ?
+
+Route Distinguisher: 2:2 (default for vrf red)
+
+*  192.168.112.0    11.11.2.100              0         32768 ?
+
+PE2#show ip bgp vpnv4 all labels
+
+Network          Next Hop      In label/Out label
+
+Route Distinguisher: 1:1 (blue)
+
+192.168.102.0    10.10.2.100     nolabel/nolabel
+
+Route Distinguisher: 2:2 (red)
+
+192.168.112.0    11.11.2.100     nolabel/nolabel
+
+PE2#show running-config | section ip vrf|router bgp|interface FastEthernet|in$g-config | section ip vrf|router bgp|interface FastEthernet|int         erface Lo section ip vrf|router bgp|interface FastEthernet|interface Loo         pback|ip p vrf|router bgp|interface FastEthernet|interface Loopback|ip r         oute vrf
+
+ip vrf blue
+
+rd 1:1
+
+route-target export 1:1
+
+route-target import 1:1
+
+ip vrf red
+
+rd 2:2
+
+route-target export 2:2
+
+route-target import 2:2
+
+interface Loopback0
+
+ip address 2.2.2.2 255.255.255.255
+
+interface FastEthernet0/0
+
+ip address 222.222.2.10 255.255.255.0
+
+duplex auto
+
+speed auto
+
+mpls ip
+
+interface FastEthernet0/1
+
+no ip address
+
+shutdown
+
+duplex auto
+
+speed auto
+
+interface FastEthernet1/0
+
+ip vrf forwarding blue
+
+ip address 10.10.2.1 255.255.255.0
+
+duplex auto
+
+speed auto
+
+interface FastEthernet1/1
+
+ip vrf forwarding red
+
+ip address 11.11.2.1 255.255.255.0
+
+duplex auto
+
+speed auto
+
+router bgp 100
+
+bgp log-neighbor-changes
+
+neighbor 1.1.1.1 remote-as 100
+
+neighbor 1.1.1.1 update-source Loopback0
+
+!
+
+address-family vpnv4
+
+neighbor 1.1.1.1 activate
+
+neighbor 1.1.1.1 send-community extended
+
+exit-address-family
+
+!
+
+address-family ipv4 vrf blue
+
+redistribute static
+
+exit-address-family
+
+!
+
+address-family ipv4 vrf red
+
+redistribute static
+
+exit-address-family
+
+ip route vrf blue 192.168.102.0 255.255.255.0 10.10.2.100
+
+ip route vrf red 192.168.112.0 255.255.255.0 11.11.2.100
+
+PE2#
+
+PE2#enable
+
+PE2#terminal length 0
+
+PE2#show ip route
+
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+
+D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+
+N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+
+E1 - OSPF external type 1, E2 - OSPF external type 2
+
+i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+
+ia - IS-IS inter area, * - candidate default, U - per-user static route
+
+o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+
++ - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+1.0.0.0/32 is subnetted, 1 subnets
+
+O        1.1.1.1 [110/12] via 222.222.2.2, 00:02:46, FastEthernet0/0
+
+2.0.0.0/32 is subnetted, 1 subnets
+
+C        2.2.2.2 is directly connected, Loopback0
+
+O     222.222.1.0/24 [110/11] via 222.222.2.2, 00:03:16, FastEthernet0/0
+
+222.222.2.0/24 is variably subnetted, 2 subnets, 2 masks
+
+C        222.222.2.0/24 is directly connected, FastEthernet0/0
+
+L        222.222.2.10/32 is directly connected, FastEthernet0/0
+
+PE2#show ip route vrf blue
+
+Routing Table: blue
+
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+
+D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+
+N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+
+E1 - OSPF external type 1, E2 - OSPF external type 2
+
+i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+
+ia - IS-IS inter area, * - candidate default, U - per-user static route
+
+o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+
++ - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+10.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+
+C        10.10.2.0/24 is directly connected, FastEthernet1/0
+
+L        10.10.2.1/32 is directly connected, FastEthernet1/0
+
+B     192.168.101.0/24 [200/0] via 1.1.1.1, 00:01:50
+
+S     192.168.102.0/24 [1/0] via 10.10.2.100
+
+PE2#show ip route vrf red
+
+Routing Table: red
+
+Codes: L - local, C - connected, S - static, R - RIP, M - mobile, B - BGP
+
+D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+
+N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+
+E1 - OSPF external type 1, E2 - OSPF external type 2
+
+i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+
+ia - IS-IS inter area, * - candidate default, U - per-user static route
+
+o - ODR, P - periodic downloaded static route, H - NHRP, l - LISP
+
++ - replicated route, % - next hop override
+
+Gateway of last resort is not set
+
+11.0.0.0/8 is variably subnetted, 2 subnets, 2 masks
+
+C        11.11.2.0/24 is directly connected, FastEthernet1/1
+
+L        11.11.2.1/32 is directly connected, FastEthernet1/1
+
+B     192.168.111.0/24 [200/0] via 1.1.1.1, 00:01:51
+
+S     192.168.112.0/24 [1/0] via 11.11.2.100
+
+PE2#show ip bgp summary
+
+BGP router identifier 2.2.2.2, local AS number 100
+
+BGP table version is 1, main routing table version 1
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+
+1.1.1.1         4          100       9       8        1    0    0 00:02:44        0
+
+PE2#show ip bgp vpnv4 all
+
+BGP table version is 7, local router ID is 2.2.2.2
+
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+
+r RIB-failure, S Stale, m multipath, b backup-path, x best-external, f RT-Filter
+
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Network          Next Hop            Metric LocPrf Weight Path
+
+Route Distinguisher: 1:1 (default for vrf blue)
+
+*>i192.168.101.0    1.1.1.1                  0    100      0 ?
+
+*> 192.168.102.0    10.10.2.100              0         32768 ?
+
+Route Distinguisher: 2:2 (default for vrf red)
+
+*>i192.168.111.0    1.1.1.1                  0    100      0 ?
+
+*> 192.168.112.0    11.11.2.100              0         32768 ?
+
+PE2#show ip bgp vpnv4 all labels
+
+Network          Next Hop      In label/Out label
+
+Route Distinguisher: 1:1 (blue)
+
+192.168.101.0    1.1.1.1         nolabel/18
+
+192.168.102.0    10.10.2.100     18/nolabel
+
+Route Distinguisher: 2:2 (red)
+
+192.168.111.0    1.1.1.1         nolabel/19
+
+192.168.112.0    11.11.2.100     19/nolabel
+
+PE2#show ip bgp vpnv4 vrf blue
+
+BGP table version is 7, local router ID is 2.2.2.2
+
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+
+r RIB-failure, S Stale, m multipath, b backup-path, x best-external, f RT-Filter
+
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Network          Next Hop            Metric LocPrf Weight Path
+
+Route Distinguisher: 1:1 (default for vrf blue)
+
+*>i192.168.101.0    1.1.1.1                  0    100      0 ?
+
+*> 192.168.102.0    10.10.2.100              0         32768 ?
+
+PE2#show ip bgp vpnv4 vrf red
+
+BGP table version is 7, local router ID is 2.2.2.2
+
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+
+r RIB-failure, S Stale, m multipath, b backup-path, x best-external, f RT-Filter
+
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Network          Next Hop            Metric LocPrf Weight Path
+
+Route Distinguisher: 2:2 (default for vrf red)
+
+*>i192.168.111.0    1.1.1.1                  0    100      0 ?
+
+*> 192.168.112.0    11.11.2.100              0         32768 ?
+
+PE2#show mpls forwarding-table
+
+Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop
+
+Label      Label      or Tunnel Id     Switched      interface
+
+16         Pop Label  222.222.1.0/24   0             Fa0/0      222.222.2.2
+
+17         17         1.1.1.1/32       0             Fa0/0      222.222.2.2
+
+18         No Label   192.168.102.0/24[V]   \
+
+1140          Fa1/0      10.10.2.100
+
+19         No Label   192.168.112.0/24[V]   \
+
+1140          Fa1/1      11.11.2.100
+
+PE2#show mpls ldp bindings
+
+lib entry: 1.1.1.1/32, rev 8
+
+local binding:  label: 17
+
+remote binding: lsr: 222.222.1.2:0, label: 17
+
+lib entry: 2.2.2.2/32, rev 2
+
+local binding:  label: imp-null
+
+remote binding: lsr: 222.222.1.2:0, label: 16
+
+lib entry: 222.222.1.0/24, rev 6
+
+local binding:  label: 16
+
+remote binding: lsr: 222.222.1.2:0, label: imp-null
+
+lib entry: 222.222.2.0/24, rev 4
+
+local binding:  label: imp-null
+
+remote binding: lsr: 222.222.1.2:0, label: imp-null
+
+PE2#show ip cef vrf blue 192.168.102.1 detail
+
+192.168.102.0/24, epoch 0
+
+local label info: other/18
+
+recursive via 10.10.2.100
+
+attached to FastEthernet1/0
+
+PE2#show ip cef vrf red 192.168.112.1 detail
+
+192.168.112.0/24, epoch 0
+
+local label info: other/19
+
+recursive via 11.11.2.100
+
+attached to FastEthernet1/1
+
+PE2#

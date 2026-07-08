@@ -1,0 +1,189 @@
+"Connected to Dynamips VM "PE1" (ID 3, type c7200) - Console port
+
+Press ENTER to get the prompt.
+
+32 is directly connected, FastEthernet1/1
+
+S     192.168.111.0/24 [1/0] via 11.11.1.100
+
+B     192.168.112.0/24 [200/0] via 2.2.2.2, 00:01:32
+
+PE1#show ip bgp summary
+
+BGP router identifier 1.1.1.1, local AS number 100
+
+BGP table version is 1, main routing table version 1
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+
+2.2.2.2         4          100       8       8        1    0    0 00:02:26        0
+
+PE1#show ip bgp vpnv4 all
+
+BGP table version is 7, local router ID is 1.1.1.1
+
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+
+r RIB-failure, S Stale, m multipath, b backup-path, x best-external, f RT-Filter
+
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Network          Next Hop            Metric LocPrf Weight Path
+
+Route Distinguisher: 1:1 (default for vrf blue)
+
+*> 192.168.101.0    10.10.1.100              0         32768 ?
+
+*>i192.168.102.0    2.2.2.2                  0    100      0 ?
+
+Route Distinguisher: 2:2 (default for vrf red)
+
+*> 192.168.111.0    11.11.1.100              0         32768 ?
+
+*>i192.168.112.0    2.2.2.2                  0    100      0 ?
+
+PE1#show ip bgp vpnv4 all labels
+
+Network          Next Hop      In label/Out label
+
+Route Distinguisher: 1:1 (blue)
+
+192.168.101.0    10.10.1.100     18/nolabel
+
+192.168.102.0    2.2.2.2         nolabel/18
+
+Route Distinguisher: 2:2 (red)
+
+192.168.111.0    11.11.1.100     19/nolabel
+
+192.168.112.0    2.2.2.2         nolabel/19
+
+PE1#show ip bgp vpnv4 vrf blue
+
+BGP table version is 7, local router ID is 1.1.1.1
+
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+
+r RIB-failure, S Stale, m multipath, b backup-path, x best-external, f RT-Filter
+
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Network          Next Hop            Metric LocPrf Weight Path
+
+Route Distinguisher: 1:1 (default for vrf blue)
+
+*> 192.168.101.0    10.10.1.100              0         32768 ?
+
+*>i192.168.102.0    2.2.2.2                  0    100      0 ?
+
+PE1#show ip bgp vpnv4 vrf red
+
+BGP table version is 7, local router ID is 1.1.1.1
+
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+
+r RIB-failure, S Stale, m multipath, b backup-path, x best-external, f RT-Filter
+
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Network          Next Hop            Metric LocPrf Weight Path
+
+Route Distinguisher: 2:2 (default for vrf red)
+
+*> 192.168.111.0    11.11.1.100              0         32768 ?
+
+*>i192.168.112.0    2.2.2.2                  0    100      0 ?
+
+PE1#show mpls forwarding-table
+
+Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop
+
+Label      Label      or Tunnel Id     Switched      interface
+
+16         16         2.2.2.2/32       0             Fa0/0      222.222.1.2
+
+17         Pop Label  222.222.2.0/24   0             Fa0/0      222.222.1.2
+
+18         No Label   192.168.101.0/24[V]   \
+
+570           Fa1/0      10.10.1.100
+
+19         No Label   192.168.111.0/24[V]   \
+
+570           Fa1/1      11.11.1.100
+
+PE1#show mpls ldp bindings
+
+lib entry: 1.1.1.1/32, rev 2
+
+local binding:  label: imp-null
+
+remote binding: lsr: 222.222.1.2:0, label: 17
+
+lib entry: 2.2.2.2/32, rev 6
+
+local binding:  label: 16
+
+remote binding: lsr: 222.222.1.2:0, label: 16
+
+lib entry: 222.222.1.0/24, rev 4
+
+local binding:  label: imp-null
+
+remote binding: lsr: 222.222.1.2:0, label: imp-null
+
+lib entry: 222.222.2.0/24, rev 8
+
+local binding:  label: 17
+
+remote binding: lsr: 222.222.1.2:0, label: imp-null
+
+PE1#show ip cef vrf blue 192.168.102.1 detail
+
+192.168.102.0/24, epoch 0, flags rib defined all labels
+
+recursive via 2.2.2.2 label 18
+
+nexthop 222.222.1.2 FastEthernet0/0 label 16
+
+PE1#show ip cef vrf red 192.168.112.1 detail
+
+192.168.112.0/24, epoch 0, flags rib defined all labels
+
+recursive via 2.2.2.2 label 19
+
+nexthop 222.222.1.2 FastEthernet0/0 label 16
+
+PE1#
+
+PE1#enable
+
+PE1#terminal length 0
+
+PE1#show ip bgp summary
+
+BGP router identifier 1.1.1.1, local AS number 100
+
+BGP table version is 1, main routing table version 1
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+
+2.2.2.2         4          100      21      22        1    0    0 00:12:25        0
+
+PE1#show ip bgp vpnv4 all labels
+
+Network          Next Hop      In label/Out label
+
+Route Distinguisher: 1:1 (blue)
+
+192.168.101.0    10.10.1.100     18/nolabel
+
+192.168.102.0    2.2.2.2         nolabel/18
+
+Route Distinguisher: 2:2 (red)
+
+192.168.111.0    11.11.1.100     19/nolabel
+
+192.168.112.0    2.2.2.2         nolabel/19
+
+PE1#

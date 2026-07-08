@@ -1,0 +1,223 @@
+"Connected to Dynamips VM "PE2" (ID 5, type c7200) - Console port
+
+Press ENTER to get the prompt.
+
+nected, FastEthernet1/1
+
+L        11.11.2.1/32 is directly connected, FastEthernet1/1
+
+B     192.168.111.0/24 [200/0] via 1.1.1.1, 00:01:51
+
+S     192.168.112.0/24 [1/0] via 11.11.2.100
+
+PE2#show ip bgp summary
+
+BGP router identifier 2.2.2.2, local AS number 100
+
+BGP table version is 1, main routing table version 1
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+
+1.1.1.1         4          100       9       8        1    0    0 00:02:44        0
+
+PE2#show ip bgp vpnv4 all
+
+BGP table version is 7, local router ID is 2.2.2.2
+
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+
+r RIB-failure, S Stale, m multipath, b backup-path, x best-external, f RT-Filter
+
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Network          Next Hop            Metric LocPrf Weight Path
+
+Route Distinguisher: 1:1 (default for vrf blue)
+
+*>i192.168.101.0    1.1.1.1                  0    100      0 ?
+
+*> 192.168.102.0    10.10.2.100              0         32768 ?
+
+Route Distinguisher: 2:2 (default for vrf red)
+
+*>i192.168.111.0    1.1.1.1                  0    100      0 ?
+
+*> 192.168.112.0    11.11.2.100              0         32768 ?
+
+PE2#show ip bgp vpnv4 all labels
+
+Network          Next Hop      In label/Out label
+
+Route Distinguisher: 1:1 (blue)
+
+192.168.101.0    1.1.1.1         nolabel/18
+
+192.168.102.0    10.10.2.100     18/nolabel
+
+Route Distinguisher: 2:2 (red)
+
+192.168.111.0    1.1.1.1         nolabel/19
+
+192.168.112.0    11.11.2.100     19/nolabel
+
+PE2#show ip bgp vpnv4 vrf blue
+
+BGP table version is 7, local router ID is 2.2.2.2
+
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+
+r RIB-failure, S Stale, m multipath, b backup-path, x best-external, f RT-Filter
+
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Network          Next Hop            Metric LocPrf Weight Path
+
+Route Distinguisher: 1:1 (default for vrf blue)
+
+*>i192.168.101.0    1.1.1.1                  0    100      0 ?
+
+*> 192.168.102.0    10.10.2.100              0         32768 ?
+
+PE2#show ip bgp vpnv4 vrf red
+
+BGP table version is 7, local router ID is 2.2.2.2
+
+Status codes: s suppressed, d damped, h history, * valid, > best, i - internal,
+
+r RIB-failure, S Stale, m multipath, b backup-path, x best-external, f RT-Filter
+
+Origin codes: i - IGP, e - EGP, ? - incomplete
+
+Network          Next Hop            Metric LocPrf Weight Path
+
+Route Distinguisher: 2:2 (default for vrf red)
+
+*>i192.168.111.0    1.1.1.1                  0    100      0 ?
+
+*> 192.168.112.0    11.11.2.100              0         32768 ?
+
+PE2#show mpls forwarding-table
+
+Local      Outgoing   Prefix           Bytes Label   Outgoing   Next Hop
+
+Label      Label      or Tunnel Id     Switched      interface
+
+16         Pop Label  222.222.1.0/24   0             Fa0/0      222.222.2.2
+
+17         17         1.1.1.1/32       0             Fa0/0      222.222.2.2
+
+18         No Label   192.168.102.0/24[V]   \
+
+1140          Fa1/0      10.10.2.100
+
+19         No Label   192.168.112.0/24[V]   \
+
+1140          Fa1/1      11.11.2.100
+
+PE2#show mpls ldp bindings
+
+lib entry: 1.1.1.1/32, rev 8
+
+local binding:  label: 17
+
+remote binding: lsr: 222.222.1.2:0, label: 17
+
+lib entry: 2.2.2.2/32, rev 2
+
+local binding:  label: imp-null
+
+remote binding: lsr: 222.222.1.2:0, label: 16
+
+lib entry: 222.222.1.0/24, rev 6
+
+local binding:  label: 16
+
+remote binding: lsr: 222.222.1.2:0, label: imp-null
+
+lib entry: 222.222.2.0/24, rev 4
+
+local binding:  label: imp-null
+
+remote binding: lsr: 222.222.1.2:0, label: imp-null
+
+PE2#show ip cef vrf blue 192.168.102.1 detail
+
+192.168.102.0/24, epoch 0
+
+local label info: other/18
+
+recursive via 10.10.2.100
+
+attached to FastEthernet1/0
+
+PE2#show ip cef vrf red 192.168.112.1 detail
+
+192.168.112.0/24, epoch 0
+
+local label info: other/19
+
+recursive via 11.11.2.100
+
+attached to FastEthernet1/1
+
+PE2#
+
+PE2#enable
+
+PE2#terminal length 0
+
+PE2#configure terminal
+
+Enter configuration commands, one per line.  End with CNTL/Z.
+
+PE2(config)#interface FastEthernet0/0
+
+PE2(config-if)#shutdown
+
+PE2(config-if)#
+
+*May 19 15:45:45.887: %OSPF-5-ADJCHG: Process 1, Nbr 222.222.2.2 on FastEthernet0/0 from FULL to DOWN, Neighbor Down: Interface down or detached
+
+*May 19 15:45:45.903: %LDP-5-NBRCHG: LDP Neighbor 222.222.1.2:0 (1) is DOWN (Interface not operational)
+
+PE2(config-if)#
+
+*May 19 15:45:47.847: %LINK-5-CHANGED: Interface FastEthernet0/0, changed state to administratively down
+
+PE2(config-if)#
+
+*May 19 15:45:48.847: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to down
+
+PE2(config-if)#no shutdown
+
+PE2(config-if)#end
+
+PE2#show ip bgp summary
+
+BGP router identifier 2.2.2.2, local AS number 100
+
+BGP table version is 1, main routing table version 1
+
+Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
+
+1.1.1.1         4          100      18      18        1    0    0 00:11:43        0
+
+PE2#
+
+*May 19 15:45:55.443: %SYS-5-CONFIG_I: Configured from console by console
+
+PE2#show ip ospf neighbor
+
+Neighbor ID     Pri   State           Dead Time   Address         Interface
+
+222.222.2.2       1   EXSTART/DR      00:00:39    222.222.2.2     FastEthernet0/0
+
+PE2#
+
+*May 19 15:45:56.175: %LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up
+
+*May 19 15:45:57.175: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up
+
+PE2#show mpls ldp neighbor
+
+PE2#

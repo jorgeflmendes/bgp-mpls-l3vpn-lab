@@ -1,0 +1,251 @@
+"Connected to Dynamips VM "PE1" (ID 3, type c7200) - Console port
+
+Press ENTER to get the prompt.
+
+rfaces
+
+509K bytes of NVRAM.
+
+8192K bytes of Flash internal SIMM (Sector size 256K).
+
+SETUP: new interface FastEthernet0/0 placed in "shutdown" state
+
+SETUP: new interface FastEthernet0/1 placed in "shutdown" state
+
+SETUP: new interface FastEthernet1/0 placed in "shutdown" state
+
+SETUP: new interface FastEthernet1/1 placed in "shutdown" state
+
+% Crashinfo may not be recovered at bootflash:crashinfo
+
+% This file system device reports an error
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+!!By default, the following "voice service voip"         !!
+
+!!sub-command is enabled:                                !!
+
+!!   ip address trusted authenticate                     !!
+
+!!                                                       !!
+
+!!The command enables the ip address authentication      !!
+
+!!on incoming H.323 or SIP trunk calls for toll fraud    !!
+
+!!prevention supports.                                   !!
+
+!!                                                       !!
+
+!!Please use "show ip address trusted list" command      !!
+
+!!to display a list of valid ip addresses for incoming   !!
+
+!!H.323 or SIP trunk calls.                              !!
+
+!!                                                       !!
+
+!!Additional valid ip addresses can be added via the     !!
+
+!!following command line:                                !!
+
+!!  voice service voip                                   !!
+
+!!   ip address trusted list                             !!
+
+!!    ipv4 <ipv4-address> [<ipv4 network-mask>]          !!
+
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+Press RETURN to get started!
+
+*May 19 15:31:25.111: %IFMGR-7-NO_IFINDEX_FILE: Unable to open nvram:/ifIndex-table No such file or directory
+
+*May 19 15:31:53.059: %LINEPROTO-5-UPDOWN: Line protocol on Interface VoIP-Null0, changed state to up
+
+*May 19 15:31:53.067: %LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up
+
+*May 19 15:31:53.075: %LINK-3-UPDOWN: Interface FastEthernet0/1, changed state to up
+
+*May 19 15:31:53.083: %LINK-3-UPDOWN: Interface FastEthernet1/0, changed state to up
+
+*May 19 15:31:53.091: %LINK-3-UPDOWN: Interface FastEthernet1/1, changed state to up
+
+*May 19 15:31:54.103: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up
+
+*May 19 15:31:54.107: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to up
+
+*May 19 15:31:54.111: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to up
+
+*May 19 15:31:54.115: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/1, changed state to up
+
+*May 19 15:31:54.235: %SYS-5-CONFIG_I: Configured from memory by console
+
+*May 19 15:31:54.835: %SYS-5-RESTART: System restarted --
+
+Cisco IOS Software, 7200 Software (C7200-ADVENTERPRISEK9-M), Version 15.1(4)M2, RELEASE SOFTWARE (fc1)
+
+Technical Support: http://www.cisco.com/techsupport
+
+Copyright (c) 1986-2011 by Cisco Systems, Inc.
+
+Compiled Mon 26-Sep-11 21:34 by prod_rel_team
+
+*May 19 15:31:54.871: %SNMP-5-COLDSTART: SNMP agent on host PE1 is undergoing a cold start
+
+*May 19 15:31:54.995: %CRYPTO-6-ISAKMP_ON_OFF: ISAKMP is OFF
+
+*May 19 15:31:54.999: %CRYPTO-6-GDOI_ON_OFF: GDOI is OFF
+
+*May 19 15:31:56.239: %LINK-5-CHANGED: Interface FastEthernet0/0, changed state to administratively down
+
+*May 19 15:31:56.247: %LINK-5-CHANGED: Interface FastEthernet0/1, changed state to administratively down
+
+*May 19 15:31:56.255: %LINK-5-CHANGED: Interface FastEthernet1/0, changed state to administratively down
+
+*May 19 15:31:56.263: %LINK-5-CHANGED: Interface FastEthernet1/1, changed state to administratively down
+
+*May 19 15:31:57.239: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to down
+
+*May 19 15:31:57.247: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to down
+
+*May 19 15:31:57.255: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to down
+
+*May 19 15:31:57.267: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/1, changed state to down
+
+PE1#no
+
+% Incomplete command.
+
+PE1#
+
+PE1#enable
+
+PE1#terminal length 0
+
+PE1#configure terminal
+
+Enter configuration commands, one per line.  End with CNTL/Z.
+
+PE1(config)#hostname PE1
+
+PE1(config)#no ip domain-lookup
+
+PE1(config)#ip cef
+
+PE1(config)#ip vrf blue
+
+PE1(config-vrf)# rd 1:1
+
+PE1(config-vrf)# route-target both 1:1
+
+PE1(config-vrf)#ip vrf red
+
+PE1(config-vrf)# rd 2:2
+
+PE1(config-vrf)# route-target both 2:2
+
+PE1(config-vrf)#mpls ldp router-id Loopback0 force
+
+PE1(config)#interface FastEthernet1/0
+
+PE1(config-if)# ip vrf forwarding blue
+
+PE1(config-if)# ip address 10.10.1.1 255.255.255.0
+
+PE1(config-if)# no shutdown
+
+PE1(config-if)#interface FastEthernet1/1
+
+PE1(config-if)# ip vrf forwarding red
+
+PE1(config-if)#
+
+*May 19 15:33:01.399: %LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback0, changed state to up
+
+PE1(config-if)# ip address 11.11.1.1 255.255.255.0
+
+PE1(config-if)# no shutdown
+
+PE1(config-if)#interface FastEthernet0/0
+
+PE1(config-if)# ip address 222.222.1.1 255.255.255.0
+
+PE1(config-if)# mpls ip
+
+PE1(config-if)# no shutdown
+
+PE1(config-if)#interface Loopback0
+
+PE1(config-if)# ip address 1.1.1.1 255.255.255.255
+
+PE1(config-if)#
+
+*May 19 15:33:03.915: %LINK-3-UPDOWN: Interface FastEthernet1/0, changed state to up
+
+*May 19 15:33:04.915: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/0, changed state to up
+
+PE1(config-if)# no shutdown
+
+PE1(config-if)#router ospf 1
+
+PE1(config-router)# network 222.222.1.0 0.0.0.255 area 0
+
+PE1(config-router)# network 1.1.1.1 0.0.0.0 area 0
+
+PE1(config-router)#
+
+*May 19 15:33:05.535: %LINK-3-UPDOWN: Interface FastEthernet1/1, changed state to up
+
+*May 19 15:33:06.627: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet1/1, changed state to up
+
+PE1(config-router)#ip route vrf blue 192.168.101.0 255.255.255.0 10.10.1.100
+
+PE1(config)#ip route vrf red 192.168.111.0 255.255.255.0 11.11.1.100
+
+PE1(config)#router bgp 100
+
+PE1(config-router)#
+
+*May 19 15:33:06.975: %LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up
+
+*May 19 15:33:08.051: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up bgp log-neighbor-changes
+
+PE1(config-router)# neighbor 2.2.2.2 remote-as 100
+
+PE1(config-router)# neighbor 2.2.2.2 update-source Loopback0
+
+PE1(config-router)# address-family vpnv4
+
+PE1(config-router-af)#  neighbor 2.2.2.2 activate
+
+PE1(config-router-af)#  neighbor 2.2.2.2 send-community extended
+
+PE1(config-router-af)# exit-address-family
+
+PE1(config-router)# address-family ipv4 vrf blue
+
+PE1(config-router-af)#  redistribute static
+
+PE1(config-router-af)# exit-address-family
+
+PE1(config-router)# address-family ipv4 vrf red
+
+PE1(config-router-af)#  redistribute static
+
+PE1(config-router-af)# exit-address-family
+
+PE1(config-router)#end
+
+PE1#write memory
+
+Warning: Attempting to overwrite an NVRAM configuration previously written
+
+by a different version of the system image.
+
+Overwrite the previous NVRAM configuration?[confirm]
+
+Building configuration...
+
+*May 19 15:33:13.371: %SYS-5-CONFIG_I: Configured from console by console

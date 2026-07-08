@@ -1,0 +1,217 @@
+"Connected to Dynamips VM "Red1" (ID 2, type c3725) - Console port
+
+Press ENTER to get the prompt.
+
+anged state to up
+
+*Mar  1 00:00:05.099: %SYS-5-CONFIG_I: Configured from memory by console
+
+*Mar  1 00:00:05.423: %LINK-5-CHANGED: Interface FastEthernet0/0, changed state to administratively down
+
+*Mar  1 00:00:05.423: %LINK-5-CHANGED: Interface FastEthernet0/1, changed state to administratively down
+
+*Mar  1 00:00:05.587: %SYS-5-RESTART: System restarted --
+
+Cisco IOS Software, 3700 Software (C3725-ADVIPSERVICESK9-M), Version 12.4(21), RELEASE SOFTWARE (fc1)
+
+Technical Support: http://www.cisco.com/techsupport
+
+Copyright (c) 1986-2008 by Cisco Systems, Inc.
+
+Compiled Thu 10-Jul-08 06:32 by prod_rel_team
+
+*Mar  1 00:00:05.591: %SNMP-5-COLDSTART: SNMP agent on host Red1 is undergoing a cold start
+
+*Mar  1 00:00:06.423: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to down
+
+*Mar  1 00:00:06.423: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/1, changed state to down
+
+Red1#no
+
+% Incomplete command.
+
+Red1#
+
+Red1#enable
+
+Red1#terminal length 0
+
+Red1#configure terminal
+
+Enter configuration commands, one per line.  End with CNTL/Z.
+
+Red1(config)#hostname Red1
+
+Red1(config)#no ip domain-lookup
+
+Red1(config)#interface FastEthernet0/0
+
+Red1(config-if)# ip address 11.11.1.100 255.255.255.0
+
+Red1(config-if)# no shutdown
+
+Red1(config-if)#interface Loopback0
+
+Red1(config-if)# ip address 192.168.111.1 255.255.255.0
+
+Red1(config-if)# no shutdown
+
+Red1(config-if)#ip route 0.0.0.0 0.0.0.0 11.11.1.1
+
+Red1(config)#end
+
+Red1#write memory
+
+Building configuration...
+
+*Mar  1 00:01:28.859: %LINEPROTO-5-UPDOWN: Line protocol on Interface Loopback0, changed state to up
+
+*Mar  1 00:01:29.155: %SYS-5-CONFIG_I: Configured from console by console[OK]
+
+Red1#
+
+Red1#
+
+*Mar  1 00:01:29.391: %LINK-3-UPDOWN: Interface FastEthernet0/0, changed state to up
+
+*Mar  1 00:01:30.487: %LINEPROTO-5-UPDOWN: Line protocol on Interface FastEthernet0/0, changed state to up
+
+Red1#
+
+Red1#enable
+
+Red1#terminal length 0
+
+Red1#show ip interface brief
+
+Interface                  IP-Address      OK? Method Status                Protocol
+
+FastEthernet0/0            11.11.1.100     YES manual up                    up
+
+FastEthernet0/1            unassigned      YES unset  administratively down down
+
+Loopback0                  192.168.111.1   YES manual up                    up
+
+Red1#show ip route
+
+Codes: C - connected, S - static, R - RIP, M - mobile, B - BGP
+
+D - EIGRP, EX - EIGRP external, O - OSPF, IA - OSPF inter area
+
+N1 - OSPF NSSA external type 1, N2 - OSPF NSSA external type 2
+
+E1 - OSPF external type 1, E2 - OSPF external type 2
+
+i - IS-IS, su - IS-IS summary, L1 - IS-IS level-1, L2 - IS-IS level-2
+
+ia - IS-IS inter area, * - candidate default, U - per-user static route
+
+o - ODR, P - periodic downloaded static route
+
+Gateway of last resort is 11.11.1.1 to network 0.0.0.0
+
+C    192.168.111.0/24 is directly connected, Loopback0
+
+11.0.0.0/24 is subnetted, 1 subnets
+
+C       11.11.1.0 is directly connected, FastEthernet0/0
+
+S*   0.0.0.0/0 [1/0] via 11.11.1.1
+
+Red1#show running-config | section interface FastEthernet|interface Loopback|$g-config | section interface FastEthernet|interface Loopback|i         p route
+
+interface Loopback0
+
+ip address 192.168.111.1 255.255.255.0
+
+interface FastEthernet0/0
+
+ip address 11.11.1.100 255.255.255.0
+
+duplex auto
+
+speed auto
+
+interface FastEthernet0/1
+
+no ip address
+
+shutdown
+
+duplex auto
+
+speed auto
+
+ip route 0.0.0.0 0.0.0.0 11.11.1.1
+
+Red1#
+
+Red1#enable
+
+Red1#terminal length 0
+
+Red1#ping 192.168.112.1 source Loopback0
+
+Type escape sequence to abort.
+
+Sending 5, 100-byte ICMP Echos to 192.168.112.1, timeout is 2 seconds:
+
+Packet sent with a source address of 192.168.111.1
+
+!!!!!
+
+Success rate is 100 percent (5/5), round-trip min/avg/max = 80/101/148 ms
+
+Red1#ping 192.168.112.1
+
+Type escape sequence to abort.
+
+Sending 5, 100-byte ICMP Echos to 192.168.112.1, timeout is 2 seconds:
+
+.....
+
+Success rate is 0 percent (0/5)
+
+Red1#
+
+Red1#enable
+
+Red1#terminal length 0
+
+Red1#ping 192.168.112.1 source Loopback0
+
+Type escape sequence to abort.
+
+Sending 5, 100-byte ICMP Echos to 192.168.112.1, timeout is 2 seconds:
+
+Packet sent with a source address of 192.168.111.1
+
+!!!!!
+
+Success rate is 100 percent (5/5), round-trip min/avg/max = 64/69/76 ms
+
+Red1#ping 192.168.112.1
+
+Type escape sequence to abort.
+
+Sending 5, 100-byte ICMP Echos to 192.168.112.1, timeout is 2 seconds:
+
+.....
+
+Success rate is 0 percent (0/5)
+
+Red1#traceroute 192.168.112.1 source Loopback0 probe 1 timeout 2
+
+Type escape sequence to abort.
+
+Tracing the route to 192.168.112.1
+
+1 11.11.1.1 24 msec
+
+2 222.222.1.2 [MPLS: Labels 16/19 Exp 0] 76 msec
+
+3 11.11.2.1 [MPLS: Label 19 Exp 0] 80 msec
+
+4 11.11.2.100 68 msec
+
+Red1#
