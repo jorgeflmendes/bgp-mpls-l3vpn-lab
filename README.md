@@ -62,7 +62,6 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for system boundaries, evidence
 |   |-- ARCHITECTURE.md
 |   `-- report/
 |-- evidence/
-|-- scripts/
 |-- CONTRIBUTING.md
 |-- SECURITY.md
 `-- README.md
@@ -73,11 +72,6 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for system boundaries, evidence
 - `evidence/` - Reviewed router outputs and capture summaries.
 
 ## Getting Started
-
-Clone the repository and run the portable publication checks:
-
-```powershell
-```
 
 Full lab reproduction requires a local GNS3 environment with the corresponding Cisco/Linux appliances and the original lab topology. Those resources are not redistributed here.
 
