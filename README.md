@@ -1,111 +1,64 @@
-# BGP/MPLS L3VPN Lab
+# BGP/MPLS L3VPN
 
-> A reproducible GNS3 provider-network lab for VRFs, MP-BGP VPNv4, MPLS labels, route targets, and tenant isolation in Layer 3 VPNs.
 
-[![GNS3](https://img.shields.io/badge/GNS3-lab-orange)](https://www.gns3.com/)
-[![Academic](https://img.shields.io/badge/Academic-SAAR%202025%2F2026-blue)](#academic-context)
+Cisco IOS configurations for a two-tenant MPLS Layer 3 VPN provider core.
 
 > [!WARNING]
-> This repository documents controlled academic network-security lab work. Run the commands and scenarios only in isolated environments where you have authorization. Licensed appliance images, course handouts, raw packet captures, and local lab state are intentionally excluded.
+> Use only in an isolated, authorized GNS3 topology.
 
-## Overview
+## What it covers
 
-This repository packages the SAAR Lab 2.2 BGP/MPLS L3VPN work as a focused provider-network project. It documents the control-plane and data-plane pieces required to transport multiple customer VPNs through a shared MPLS core while preserving tenant isolation.
+- Blue and red VRFs with distinct route distinguishers and route targets.
+- OSPF and LDP across the provider core.
+- MP-BGP VPNv4 signalling between PE loopbacks.
+- CE configurations for both tenant sites.
+- Same-tenant reachability and cross-tenant isolation.
 
-The repository is organized for public review: report source, architecture notes, selected evidence, CI-safe validation, and publication hygiene files are kept separate from generated or restricted lab artefacts.
-
-## Academic Context
-
-SAAR / Advanced Network Security and Architectures at Instituto Superior Tecnico. The lab emphasizes VRF isolation, route distinguisher and route-target semantics, MP-BGP VPNv4 signaling, and MPLS packet interpretation.
-
-## Key Features
-
-- Provider core with OSPF, LDP/MPLS, and MP-BGP VPNv4.
-- Blue/red customer VRFs with route distinguishers and route targets.
-- Intra-tenant connectivity and cross-tenant isolation validation.
-- MPLS ICMP capture summaries with transport and VPN labels.
-- BGP Open/Update evidence for VPNv4 capabilities, MP_REACH_NLRI, RTs, RDs, and labels.
-
-## Architecture
-
-![BGP Topology](docs/report/assets/bgp.png)
+## Topology
 
 ```mermaid
 flowchart LR
-BLUE1["Blue site 1"] --> PE1["PE1\nVRF blue/red"]
-RED1["Red site 1"] --> PE1
-PE1 --> P["Provider core\nOSPF + LDP/MPLS"] --> PE2["PE2\nVRF blue/red"]
-PE2 --> BLUE2["Blue site 2"]
-PE2 --> RED2["Red site 2"]
-PE1 <-. MP-BGP VPNv4 .-> PE2
-P --> EVIDENCE["MPLS / BGP evidence"]
+BLUE1["Blue CE"] --- PE1["PE1"] --- P["P\nOSPF + LDP"] --- PE2["PE2"] --- BLUE2["Blue CE"]
+RED1["Red CE"] --- PE1
+PE2 --- RED2["Red CE"]
+PE1 <-. "MP-BGP VPNv4" .-> PE2
 ```
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for system boundaries, evidence flow, and publication caveats.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the provider addressing and VRF design.
 
-## Tech Stack
-
-- GNS3
-- Cisco IOS
-- OSPF
-- LDP/MPLS
-- MP-BGP VPNv4
-- VRF / RD / RT
-- Wireshark / tshark
-- PDF Report
-
-## Repository Structure
+## Layout
 
 ```text
-.
-|-- docs/
-|   |-- ARCHITECTURE.md
-|   `-- report/
-|-- evidence/
-|-- CONTRIBUTING.md
-|-- SECURITY.md
-`-- README.md
+configs/     PE, P and CE Cisco IOS configurations
+scripts/     configuration template rendering helpers
+docs/        topology and VRF notes
+evidence/    selected router and packet summaries
 ```
 
-- `docs/report/` - Final PDF report extract and selected figures.
-- `docs/ARCHITECTURE.md` - Topology, evidence flow, and publication boundary.
-- `evidence/` - Reviewed router outputs and capture summaries.
+## Requirements
 
-## Getting Started
+- GNS3 with MPLS-capable Cisco IOS routers.
+- PE1, P and PE2 provider nodes, plus CE nodes for blue and red sites.
 
-Full lab reproduction requires a local GNS3 environment with the corresponding Cisco/Linux appliances and the original lab topology. Those resources are not redistributed here.
+## Quick start
 
-## Evidence Policy
+Load `configs/pe1.cfg`, `configs/p.cfg`, and `configs/pe2.cfg` on the provider core. Render a CE configuration for each customer site:
 
-Evidence under `evidence/` is curated and text-based where possible. Raw captures (`.pcap`, `.pcapng`), VM images, IOS/ASAv images, GNS3 project IDs, large generated artefacts, and private course PDFs are not included. The report references course material instead of vendoring it.
+```bash
+CE_ADDRESS=10.10.1.100 LAN_ADDRESS=192.168.101.1 PE_ADDRESS=10.10.1.1 \
+  python3 scripts/render_config.py configs/ce.cfg.template blue1.cfg
 
-## Security and Ethics
+```
 
-This is an authorized educational network-security project. Do not target third-party systems, production networks, or public infrastructure. See [SECURITY.md](SECURITY.md) for scope and reporting guidance.
+Use the corresponding red addressing when rendering red CEs.
 
-## Limitations
+## Verification
 
-- Full reproduction requires Cisco-compatible GNS3 routers and MPLS-capable images.
-- Raw PCAP captures are excluded; text and CSV summaries are included.
-- Course lab guides are referenced but not redistributed.
+- Confirm OSPF and LDP neighbours between PE and P routers.
+- Confirm the VPNv4 BGP session is established between PE loopbacks.
+- Test connectivity between sites in the same VRF.
+- Confirm cross-tenant routes and traffic remain isolated.
 
-## Roadmap
+## Safety
 
-- Add sanitized final router configurations for each node.
-- Add a topology diagram generated from the final GNS3 layout.
-- Add local report rendering instructions.
-
-## Usage Note
-
-This repository is published as an academic portfolio and reproducibility artefact for SAAR laboratory work. Course guides, network appliance images, and third-party materials may be subject to separate terms.
-
-## References
-
-- [Instituto Superior Tecnico](https://tecnico.ulisboa.pt/)
-- [GNS3](https://www.gns3.com/)
-- [Wireshark](https://www.wireshark.org/)
-- Project-specific lab guides and course slides are cited inside the report source.
-
-## Topics
-
-network-security, bgp, mpls, l3vpn, vrf, gns3, cisco, wireshark, academic-project
+Do not commit credentials, router images, VM disks, captures or local GNS3 project files. See [SECURITY.md](SECURITY.md).

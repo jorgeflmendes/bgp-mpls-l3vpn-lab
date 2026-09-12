@@ -1,0 +1,6 @@
+interface FastEthernet0/0
+ ip address {{CE_ADDRESS}} 255.255.255.0
+ no shutdown
+interface Loopback0
+ ip address {{LAN_ADDRESS}} 255.255.255.0
+ip route 0.0.0.0 0.0.0.0 {{PE_ADDRESS}}
